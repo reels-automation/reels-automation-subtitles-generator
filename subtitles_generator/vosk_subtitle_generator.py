@@ -11,6 +11,7 @@ class VoskSubtitleGenerator(ISubtitleGenerator):
     def __init__(self,model_path:str, sample_rate:int = 16000):
         self.model = Model(model_path)
         self.sample_rate = sample_rate
+        self.temp_json_folder = "temp_subtitles"
         SetLogLevel(0)
 
 
@@ -21,7 +22,7 @@ class VoskSubtitleGenerator(ISubtitleGenerator):
 
         # Get the base name (without extension) for output JSON
         base_name = os.path.splitext(os.path.basename(file_path))[0]
-        temp_output_folder = audio_saving_strategy.temp_folder 
+        temp_output_folder = self.temp_json_folder
         output_json = os.path.join(temp_output_folder, f"{base_name}.json")
 
         # List to accumulate word timestamps
@@ -58,9 +59,10 @@ class VoskSubtitleGenerator(ISubtitleGenerator):
         with open(output_json, "w", encoding="utf-8") as f:
             json.dump(all_word_timestamps, f, ensure_ascii=False, indent=4)
 
-        print(f"Transcription saved to: {output_json}")
+     #   print(f"Transcription saved to: {output_json}")
         json_file = f"{base_name}.json"
-        audio_saving_strategy.save_subtitle(json_file)
+      #  print(json_file)
+        audio_saving_strategy.save_subtitle(output_json)
 
 
         
