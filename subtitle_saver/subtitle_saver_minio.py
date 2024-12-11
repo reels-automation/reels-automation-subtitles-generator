@@ -31,7 +31,7 @@ class SubtitleSaverMinio(ISubtitleSaverStrategy):
         except S3Error as err:
             print(f"Error ocurred:{err}")
 
-    def save_subtitle(self, local_path: str):
+    def save_subtitle(self, local_path: str) -> str:
 
        # local_path = self.get_file(file_to_save_name)        
         file_to_save_name = os.path.basename(local_path)
@@ -42,5 +42,6 @@ class SubtitleSaverMinio(ISubtitleSaverStrategy):
         )
         os.remove(local_path)
         print("File saved succesfulyy")
+        return file_to_save_name
 
 

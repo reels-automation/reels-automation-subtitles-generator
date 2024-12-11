@@ -59,10 +59,12 @@ class VoskSubtitleGenerator(ISubtitleGenerator):
         with open(output_json, "w", encoding="utf-8") as f:
             json.dump(all_word_timestamps, f, ensure_ascii=False, indent=4)
 
-     #   print(f"Transcription saved to: {output_json}")
+        os.remove(file_path)
+     #  print(f"Transcription saved to: {output_json}")
         json_file = f"{base_name}.json"
-      #  print(json_file)
+      # print(json_file)
         audio_saving_strategy.save_subtitle(output_json)
+        return json_file
 
 
         

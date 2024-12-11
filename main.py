@@ -24,12 +24,8 @@ def main():
 
     subtitle_saver = SubtitleSaverMinio(audio_temp_folder,audio_bucket_name,subtitles_bucket_name)
     subtitle_generator = VoskSubtitleGenerator(model_path)
-    #subtitle_generator.create_subtitles("test.mp3", subtitle_saver)
 
     create_consumer(app_consumer,topic_to_subscribe, subtitle_saver, subtitle_generator)
-
-    
-    
 
 if __name__ == "__main__":
     main()
