@@ -8,7 +8,7 @@ class SubtitleSaverMinio(ISubtitleSaverStrategy):
 
     def __init__(self, temp_folder:str, audio_bucket_name:str, subtitles_bucket_name:str ):
         self.minio_client = Minio(
-        "172.19.0.2:9000",
+        "minio:9000",
         access_key="AKIAIOSFODNN7EXAMPLE",
         secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
         secure=False

@@ -25,7 +25,7 @@ def create_consumer(app_consumer: Application, topic_to_subscribe: str, subtitle
                 file_name = subtitle_generator.create_subtitles(file_path,subtitle_saver)
                 
                 app_producer = Application(
-                    broker_address="localhost:9092", loglevel="DEBUG"
+                    broker_address="broker:9093", loglevel="DEBUG"
                 )
                 topic_to_produce = "subtitles-audios"
                 key = "consumer-subtitles"
