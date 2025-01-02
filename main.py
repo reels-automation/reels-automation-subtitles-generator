@@ -20,7 +20,7 @@ def main():
     audio_bucket_name = "audios-tts"
     subtitles_bucket_name = "subtitles-json"
 
-    model_path = "/home/porky/Downloads/vosk-model-small-cn-0.22"
+    model_path = "/home/porky/Downloads/vosk-model-small-es-0.42"
 
     subtitle_saver = SubtitleSaverMinio(audio_temp_folder,audio_bucket_name,subtitles_bucket_name)
     subtitle_generator = VoskSubtitleGenerator(model_path)
