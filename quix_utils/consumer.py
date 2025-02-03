@@ -34,7 +34,3 @@ def create_consumer(app_consumer: Application, topic_to_subscribe: str, subtitle
                 
                 #subtitle_saver.save_subtitle(audio_name, bucket_name)
                 #print(msg_value_json_response)
-
-            
-
-
