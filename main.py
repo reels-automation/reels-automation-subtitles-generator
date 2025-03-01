@@ -1,13 +1,15 @@
+import os
 from quixstreams import Application
 
 from subtitle_saver.subtitle_saver_minio import SubtitleSaverMinio
 from subtitles_generator.vosk_subtitle_generator import VoskSubtitleGenerator
 from quix_utils.consumer import create_consumer
-
+from dotenv import load_dotenv
+from setttings import KAFKA_BROKER
 def main():
 
     app_consumer = Application(
-        broker_address ="broker:9093",
+        broker_address =KAFKA_BROKER,
         loglevel="DEBUG",
         consumer_group = "audio_subtitles_reader",
         auto_offset_reset = "latest"

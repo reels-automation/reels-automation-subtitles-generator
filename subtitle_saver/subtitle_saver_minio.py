@@ -3,14 +3,17 @@ from minio import Minio
 from minio.error import S3Error
 
 from subtitle_saver.i_subtitle_saver_strategy import ISubtitleSaverStrategy
+from dotenv import load_dotenv
+from setttings import MINIO_URL
 
 class SubtitleSaverMinio(ISubtitleSaverStrategy):
 
     def __init__(self, temp_folder:str, audio_bucket_name:str, subtitles_bucket_name:str ):
+        load_dotenv()
         self.minio_client = Minio(
-        "minio:9000",
-        access_key="AKIAIOSFODNN7EXAMPLE",
-        secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+        MINIO_URL,
+        access_key=os.getenv("MINIO_ACCESS_KEY"),
+        secret_key=os.getenv("MINIO_SECRET_KEY"),
         secure=False
         )
         self.temp_folder = temp_folder
