@@ -23,32 +23,35 @@ def create_consumer(app_consumer: Application, topic_to_subscribe: str, subtitle
                 audio_name = msg_value_json_response["tts_audio_name"]
 
                 file_path = subtitle_saver.get_file(audio_name)
-                subtitles_file_name = subtitle_generator.create_subtitles(file_path,subtitle_saver)
-                subtitles_bucket = subtitle_saver.subtitles_bucket_name
+                print("File path: ", file_path)
+                if file_path is not None:
+                    subtitles_file_name = subtitle_generator.create_subtitles(file_path,subtitle_saver)
+                    subtitles_bucket = subtitle_saver.subtitles_bucket_name
 
-                message_builder = MessageBuilder(msg_value_json_response["tema"])
-                message = (message_builder
-                            .add_personaje(msg_value_json_response["personaje"])
-                            .add_script(msg_value_json_response["script"])
-                            .add_tts_audio_name(audio_name)
-                            .add_tts_audio_bucket(msg_value_json_response["tts_audio_bucket"])
-                            .add_subtitles_name(subtitles_file_name)
-                            .add_subtitles_bucket(subtitles_bucket)
-                            .add_author(msg_value_json_response["author"])
-                            .add_pitch(msg_value_json_response["pitch"])
-                            .add_tts_voice(msg_value_json_response["tts_voice"])
-                            .add_tts_rate(msg_value_json_response["tts_rate"])
-                            .add_pth_voice(msg_value_json_response["pth_voice"])
-                            .add_gameplay_name(msg_value_json_response["gameplay_name"])
-                            .build()
-                        )
+                    message_builder = MessageBuilder(msg_value_json_response["tema"])
+                    message = (message_builder
+                                .add_personaje(msg_value_json_response["personaje"])
+                                .add_script(msg_value_json_response["script"])
+                                .add_tts_audio_name(audio_name)
+                                .add_tts_audio_bucket(msg_value_json_response["tts_audio_bucket"])
+                                .add_subtitles_name(subtitles_file_name)
+                                .add_subtitles_bucket(subtitles_bucket)
+                                .add_author(msg_value_json_response["author"])
+                                .add_pitch(msg_value_json_response["pitch"])
+                                .add_tts_voice(msg_value_json_response["tts_voice"])
+                                .add_tts_rate(msg_value_json_response["tts_rate"])
+                                .add_pth_voice(msg_value_json_response["pth_voice"])
+                                .add_gameplay_name(msg_value_json_response["gameplay_name"])
+                                .add_instagram_account(msg_value_json_response["instagram_account"])
+                                .build()
+                            )
                 
                 
-                app_producer = Application(
-                    broker_address=KAFKA_BROKER, loglevel="DEBUG"
-                )
-                topic_to_produce = "subtitles-audios"
-                key = "consumer-subtitles"
-                data = str(message.to_dict())
-                create_producer(app_producer,topic_to_produce,key,data)
+                    app_producer = Application(
+                        broker_address=KAFKA_BROKER, loglevel="DEBUG"
+                    )
+                    topic_to_produce = "subtitles-audios"
+                    key = "consumer-subtitles"
+                    data = str(message.to_dict())
+                    create_producer(app_producer,topic_to_produce,key,data)
 
