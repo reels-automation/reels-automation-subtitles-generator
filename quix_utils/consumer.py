@@ -20,32 +20,38 @@ def create_consumer(app_consumer: Application, topic_to_subscribe: str, subtitle
                 msg_value_json_response = ast.literal_eval(msg.value().decode("utf-8"))
                 
                 print("Msg value json response: ", msg_value_json_response)
-                audio_name = msg_value_json_response["tts_audio_name"]
+                audio_name = msg_value_json_response["audio_item"][0]["tts_audio_name"]
 
                 file_path = subtitle_saver.get_file(audio_name)
                 print("File path: ", file_path)
                 if file_path is not None:
+
                     subtitles_file_name = subtitle_generator.create_subtitles(file_path,subtitle_saver)
                     subtitles_bucket = subtitle_saver.subtitles_bucket_name
 
+                    subtitles_item_save = [{
+                    "subtitles_name": subtitles_file_name,
+                    "file_getter": "minio",
+                    "subtitles_directory": subtitles_bucket
+                    }]
+
                     message_builder = MessageBuilder(msg_value_json_response["tema"])
                     message = (message_builder
-                                .add_personaje(msg_value_json_response["personaje"])
-                                .add_script(msg_value_json_response["script"])
-                                .add_tts_audio_name(audio_name)
-                                .add_tts_audio_bucket(msg_value_json_response["tts_audio_bucket"])
-                                .add_subtitles_name(subtitles_file_name)
-                                .add_subtitles_bucket(subtitles_bucket)
-                                .add_author(msg_value_json_response["author"])
-                                .add_pitch(msg_value_json_response["pitch"])
-                                .add_tts_voice(msg_value_json_response["tts_voice"])
-                                .add_tts_rate(msg_value_json_response["tts_rate"])
-                                .add_pth_voice(msg_value_json_response["pth_voice"])
-                                .add_gameplay_name(msg_value_json_response["gameplay_name"])
-                                .add_instagram_account(msg_value_json_response["instagram_account"])
-                                .build()
+                                    .add_usuario(msg_value_json_response["usuario"])
+                                    .add_idioma(msg_value_json_response["idioma"])
+                                    .add_personaje(msg_value_json_response["personaje"])
+                                    .add_script(msg_value_json_response["script"])
+                                    .add_audio_item(msg_value_json_response["audio_item"])
+                                    .add_subtitle_item(subtitles_item_save)
+                                    .add_author(msg_value_json_response["author"])
+                                    .add_gameplay_name(msg_value_json_response["gameplay_name"])
+                                    .add_background_music(msg_value_json_response["background_music"])
+                                    .add_images(msg_value_json_response["images"])
+                                    .add_random_images(msg_value_json_response["random_images"])
+                                    .add_random_amount_images(msg_value_json_response["random_amount_images"])
+                                    .add_gpt_model(msg_value_json_response["gpt_model"])
+                                    .build()
                             )
-                
                 
                     app_producer = Application(
                         broker_address=KAFKA_BROKER, loglevel="DEBUG"
