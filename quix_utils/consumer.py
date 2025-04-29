@@ -26,6 +26,8 @@ def create_consumer(app_consumer: Application, topic_to_subscribe: str, subtitle
                 print("File path: ", file_path)
                 if file_path is not None:
 
+                    subtitle_generator.change_model(msg_value_json_response["idioma"])
+
                     subtitles_file_name = subtitle_generator.create_subtitles(file_path,subtitle_saver)
                     subtitles_bucket = subtitle_saver.subtitles_bucket_name
 

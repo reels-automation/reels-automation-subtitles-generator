@@ -1,4 +1,5 @@
 import os
+import setttings
 from quixstreams import Application
 
 from subtitle_saver.subtitle_saver_minio import SubtitleSaverMinio
@@ -21,10 +22,9 @@ def main():
     audio_bucket_name = "audios-tts"
     subtitles_bucket_name = "subtitles-json"
 
-    model_path = "vosk-model-es-0.42"
-
+    default_model_path = setttings.VOSK_MODEL_ES_PATH
     subtitle_saver = SubtitleSaverMinio(audio_temp_folder,audio_bucket_name,subtitles_bucket_name)
-    subtitle_generator = VoskSubtitleGenerator(model_path)
+    subtitle_generator = VoskSubtitleGenerator(default_model_path)
 
     create_consumer(app_consumer,topic_to_subscribe, subtitle_saver, subtitle_generator)
 

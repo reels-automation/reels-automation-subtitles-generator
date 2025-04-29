@@ -9,3 +9,12 @@ class ISubtitleGenerator(ABC):
         """Creates the subtitles of a given audio
         """
         pass
+
+    def change_model(self, language:str):
+        """Changes the model based on a provided language
+
+        Args:
+            language (str): the model language
+        """
+        
+    

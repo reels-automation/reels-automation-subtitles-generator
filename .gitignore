@@ -3,6 +3,7 @@
 
 .coverage
 vosk-model-es-0.42
+vosk-model-en-us-0.22
 # Byte-compiled / optimized / DLL files
 __pycache__/
 **/__pycache__/

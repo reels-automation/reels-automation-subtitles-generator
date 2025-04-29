@@ -1,6 +1,7 @@
 import os 
 import json
 import subprocess
+import setttings
 from vosk import Model, KaldiRecognizer, SetLogLevel
 from subtitles_generator.i_subtitle_generator import ISubtitleGenerator
 from subtitle_saver.i_subtitle_saver_strategy import ISubtitleSaverStrategy
@@ -14,6 +15,17 @@ class VoskSubtitleGenerator(ISubtitleGenerator):
         self.temp_json_folder = "temp_subtitles"
         SetLogLevel(0)
 
+    def change_model(self, language:str):
+
+        if language == "es":
+            model = setttings.VOSK_MODEL_ES_PATH
+        elif language == "en":
+            model = setttings.VOSK_MODEL_EN_PATH
+        else:
+            model = setttings.VOSK_MODEL_ES_PATH #  Default value 
+            print("wrong language. changing to spanish!")
+
+        self.model = Model(model)
 
     def create_subtitles(self, file_path:str, audio_saving_strategy: ISubtitleSaverStrategy):
         
