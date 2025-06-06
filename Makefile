@@ -18,6 +18,13 @@ run-container:
   reels-automation-subtitles-generator
 
 python-run:
+	cp .env.development .env
+	sed -i '/^ENVIRONMENT/d' .env
+	echo 'ENVIRONMENT=DEVELOPMENT' >> .env
+	bash -c 'source env/bin/activate && python main.py'
+
+python-run-prod:
+	cp .env.production .env
 	sed -i '/^ENVIRONMENT/d' .env
 	echo 'ENVIRONMENT=DEVELOPMENT' >> .env
 	bash -c 'source env/bin/activate && python main.py'
