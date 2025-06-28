@@ -10,6 +10,8 @@ from subtitle_saver.i_subtitle_saver_strategy import ISubtitleSaverStrategy
 class VoskSubtitleGenerator(ISubtitleGenerator):
 
     def __init__(self,model_path:str, sample_rate:int = 16000):
+        print("model path: ", model_path)
+        print(os.listdir(model_path))
         self.model = Model(model_path)
         self.sample_rate = sample_rate
         self.temp_json_folder = "temp_subtitles"

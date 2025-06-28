@@ -1,14 +1,15 @@
 import os
 import setttings
 from quixstreams import Application
-
 from subtitle_saver.subtitle_saver_minio import SubtitleSaverMinio
 from subtitles_generator.vosk_subtitle_generator import VoskSubtitleGenerator
 from quix_utils.consumer import create_consumer
 from dotenv import load_dotenv
-from setttings import KAFKA_BROKER
-def main():
+from setttings import KAFKA_BROKER, ADMIN_API
+from utils import download_and_extract_voice_models
 
+def main():
+    download_and_extract_voice_models(f"{ADMIN_API}/get-files/vosk-models")        
     app_consumer = Application(
         broker_address =KAFKA_BROKER,
         loglevel="DEBUG",

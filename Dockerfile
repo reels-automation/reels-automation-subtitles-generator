@@ -14,7 +14,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copies the whole app 
 COPY . . 
 
-#copies the vosk model
-COPY vosk-model-es-0.42 vosk-model-es-0.42
 
 CMD ["python", "main.py"]

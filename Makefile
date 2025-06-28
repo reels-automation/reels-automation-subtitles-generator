@@ -1,14 +1,13 @@
 install:
 	pip install --upgrade pip &&\
 		pip install -r requirements.txt
+
 build-container:
-	sed -i '/^ENVIRONMENT/d' .env
-	echo 'ENVIRONMENT=DEPLOYMENT' >> .env
 	docker build --no-cache -t reels-automation-subtitles-generator .
+
 build-container-no-ffmpeg:
-	sed -i '/^ENVIRONMENT/d' .env
-	echo 'ENVIRONMENT=DEPLOYMENT' >> .env
 	docker build --no-cache --build-arg INSTALL_FFMPEG=false -t reels-automation-subtitles-generator .
+
 run-container:
 	sed -i '/^ENVIRONMENT/d' .env
 	echo 'ENVIRONMENT=DEPLOYMENT' >> .env

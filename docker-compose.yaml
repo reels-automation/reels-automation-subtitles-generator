@@ -1,0 +1,30 @@
+services:
+  subtitle-generator:
+    build: .
+    environment:
+      PYTHONUNBUFFERED: 1
+      KAFKA_BROKER: ${KAFKA_BROKER}
+      KAFKA_BROKER_DOCKER: ${KAFKA_BROKER_DOCKER}
+      MINIO_URL: ${MINIO_URL}
+      MINIO_URL_DOCKER: ${MINIO_URL_DOCKER}
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
+      ADMIN_API: ${ADMIN_API}
+    restart: unless-stopped
+    networks:
+      - local-kafka
+      - minio-network
+      - minio-admin-files
+    volumes:
+      - vosk-models:/app/voice_models
+    
+networks:
+  local-kafka:
+    external: true
+  minio-network:
+    external: true
+  minio-admin-files:
+    external: true
+
+volumes:
+      vosk-models:
