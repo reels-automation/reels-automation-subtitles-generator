@@ -20,7 +20,7 @@ def main():
                     'tts_voice': 'es-ES-XimenaNeural',
                     'tts_rate': 0, 
                     'pth_voice': 'homero'}]
-
+        gameplay_name="subway.mp4"
         message_builder = MessageBuilder(tema)
         message = (message_builder
                    .add_personaje(personaje)
@@ -28,6 +28,7 @@ def main():
                    .add_usuario(usuario)
                    .add_idioma(idioma)
                    .add_audio_item(audio_item)
+                   .add_gameplay_name(gameplay_name)
                    
 
                    .build())
