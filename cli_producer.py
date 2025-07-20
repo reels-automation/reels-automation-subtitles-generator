@@ -9,17 +9,27 @@ def main():
 
     with app_producer.get_producer() as producer:
         tema = "Mensaje de prueba subtilos"
+        idioma="es"
         personaje = "Homero Simpson"
+        usuario="43eda5b3-1c2b-424b-b460-c4d49198fc99"
         script = "Este es un mensaje de prueba"
-        audio_bucket = "audios-tts"
-        tts_audio_name = "Mensaje_de_prueba_2025-03-01_14_42_06_872752.mp3"
+        audio_item=[{'tts_audio_name': 'tema_at_1751469037_327388_2025-07-02_15_10_47_298969.mp3', 
+                    'tts_audio_directory': 'audios-tts',
+                    'file_getter': 'minio', 
+                    'pitch': 0, 
+                    'tts_voice': 'es-ES-XimenaNeural',
+                    'tts_rate': 0, 
+                    'pth_voice': 'homero'}]
 
         message_builder = MessageBuilder(tema)
         message = (message_builder
                    .add_personaje(personaje)
                    .add_script(script)
-                   .add_tts_audio_bucket(audio_bucket)
-                   .add_tts_audio_name(tts_audio_name)
+                   .add_usuario(usuario)
+                   .add_idioma(idioma)
+                   .add_audio_item(audio_item)
+                   
+
                    .build())
         
         while True:

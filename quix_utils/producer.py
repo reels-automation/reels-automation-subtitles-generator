@@ -8,4 +8,4 @@ def create_producer(app_producer:Application, topic_to_produce:str,key:str,data:
             key = key,
             value = data
         )
-    logging.info("Produced. Sleeping..")
+    logging.info("Produced a subtitle. Sleeping..")
