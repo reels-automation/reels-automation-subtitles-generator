@@ -51,7 +51,7 @@ class ISubtitleGenerator(ABC):
             group = json_subtitles_timestamps[index:index+word_per_subtitle]
             start = self.__format_time(group[0]["start"])
             end = self.__format_time(group[-1]["end"])
-            words = " ".join(word['word'] for word in group)
+            words = " ".join(word['word'].capitalize() for word in group)
             template += f"Dialogue: 0,{start},{end},Default,,0,0,0,,{words}\n"
 
 

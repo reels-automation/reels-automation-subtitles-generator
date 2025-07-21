@@ -1,4 +1,5 @@
 import ast
+import json
 from quixstreams import Application
 from subtitle_saver.i_subtitle_saver_strategy import ISubtitleSaverStrategy
 from subtitles_generator.i_subtitle_generator import ISubtitleGenerator
@@ -52,6 +53,7 @@ def create_consumer(app_consumer: Application, topic_to_subscribe: str, subtitle
                     )
                     topic_to_produce = "subtitles-audios"
                     key = "consumer-subtitles"
-                    data = str(message.to_dict())
+                    data = json.dumps(message.to_dict())
                     create_producer(app_producer,topic_to_produce,key,data)
+                    print("data: ", data)
 

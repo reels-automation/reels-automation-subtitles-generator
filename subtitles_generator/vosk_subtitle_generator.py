@@ -78,7 +78,7 @@ class VoskSubtitleGenerator(ISubtitleGenerator):
                 f.write(ass_subtitle)
 
             os.remove(file_path)
-            json_file = f"{base_name}.json"
+            json_file = f"{base_name}.ass"
             audio_saving_strategy.save_subtitle(output_ass)
             return json_file
         except Exception as ex:
