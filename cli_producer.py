@@ -30,6 +30,7 @@ def main():
                    .add_idioma(idioma)
                    .add_audio_item(audio_item)
                    .add_gameplay_name(gameplay_name)
+                   .add_random_images("False")
                    .build())
         
         while True:
