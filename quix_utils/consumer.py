@@ -1,4 +1,5 @@
 import ast
+import json
 from quixstreams import Application
 from subtitle_saver.i_subtitle_saver_strategy import ISubtitleSaverStrategy
 from subtitles_generator.i_subtitle_generator import ISubtitleGenerator
@@ -18,25 +19,17 @@ def create_consumer(app_consumer: Application, topic_to_subscribe: str, subtitle
             else:
                 consumer.store_offsets(msg)
                 msg_value_json_response = ast.literal_eval(msg.value().decode("utf-8"))
-                
-                print("Msg value json response: ", msg_value_json_response)
                 audio_name = msg_value_json_response["audio_item"][0]["tts_audio_name"]
-
                 file_path = subtitle_saver.get_file(audio_name)
-                print("File path: ", file_path)
                 if file_path is not None:
-
                     subtitle_generator.change_model(msg_value_json_response["idioma"])
-
                     subtitles_file_name = subtitle_generator.create_subtitles(file_path,subtitle_saver)
                     subtitles_bucket = subtitle_saver.subtitles_bucket_name
-
                     subtitles_item_save = [{
                     "subtitles_name": subtitles_file_name,
                     "file_getter": "minio",
                     "subtitles_directory": subtitles_bucket
                     }]
-
                     message_builder = MessageBuilder(msg_value_json_response["tema"])
                     message = (message_builder
                                     .add_usuario(msg_value_json_response["usuario"])
@@ -60,6 +53,7 @@ def create_consumer(app_consumer: Application, topic_to_subscribe: str, subtitle
                     )
                     topic_to_produce = "subtitles-audios"
                     key = "consumer-subtitles"
-                    data = str(message.to_dict())
+                    data = json.dumps(message.to_dict())
                     create_producer(app_producer,topic_to_produce,key,data)
+                    print("data: ", data)
 

@@ -13,7 +13,7 @@ class Message:
     gameplay_name:str=""
     background_music:list= field(default_factory=list)
     images:list= field(default_factory=list)
-    random_images:str="false"
+    random_images:str=False
     random_amount_images:int=0
     gpt_model:str=""
     
@@ -69,7 +69,13 @@ class MessageBuilder:
         return self
     
     def add_random_images(self, random_images:str):
-        self.message.random_images = random_images
+        if isinstance(random_images,str):
+            if random_images.upper() == "TRUE":
+                self.message.random_images = True
+            else:
+                self.message.random_images = False
+        else:
+            self.message.random_images = random_images
         return self
     
     def add_random_amount_images(self, random_amount_images:int):

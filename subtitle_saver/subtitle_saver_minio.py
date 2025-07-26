@@ -1,7 +1,8 @@
 import os
+import logging
 from minio import Minio
 from minio.error import S3Error
-
+from errors.errors import SubtitleError
 from subtitle_saver.i_subtitle_saver_strategy import ISubtitleSaverStrategy
 from dotenv import load_dotenv
 from setttings import MINIO_URL
@@ -21,8 +22,7 @@ class SubtitleSaverMinio(ISubtitleSaverStrategy):
         self.subtitles_bucket_name = subtitles_bucket_name
     
     def get_file(self, file_name:str) -> str:
-        local_path = os.path.join(self.temp_folder, file_name) #Temp path to save the file
-     #   print("Filename: ", file_name)
+        local_path = os.path.join(self.temp_folder, file_name)
 
         try:
             self.minio_client.fget_object(
@@ -32,19 +32,21 @@ class SubtitleSaverMinio(ISubtitleSaverStrategy):
             )
             return local_path
         except S3Error as err:
-            print(f"Error ocurred:{err}")
+            raise SubtitleError(mensaje="S3Error trying to get_file from minio bucket", status_code=500, error_log=err)
 
     def save_subtitle(self, local_path: str) -> str:
+        try: 
 
-       # local_path = self.get_file(file_to_save_name)        
-        file_to_save_name = os.path.basename(local_path)
-        self.minio_client.fput_object(
-            self.subtitles_bucket_name,
-            file_to_save_name,
-            local_path,
-        )
-        os.remove(local_path)
-        print("File saved succesfulyy")
+            file_to_save_name = os.path.basename(local_path)
+            self.minio_client.fput_object(
+                self.subtitles_bucket_name,
+                file_to_save_name,
+                local_path,
+            )
+            os.remove(local_path)
+        except Exception as ex:
+            raise SubtitleError(mensaje="An error ocurred trying to put an object in minio bucket", status_code=500, error_log=ex)
+        logging.info(f"{file_to_save_name} saved successfully")
         return file_to_save_name
 
 
