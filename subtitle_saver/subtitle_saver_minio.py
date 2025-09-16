@@ -15,7 +15,7 @@ class SubtitleSaverMinio(ISubtitleSaverStrategy):
         MINIO_URL,
         access_key=os.getenv("MINIO_ACCESS_KEY"),
         secret_key=os.getenv("MINIO_SECRET_KEY"),
-        secure=False
+        secure=os.getenv("SECURE")
         )
         self.temp_folder = temp_folder
         self.bucket_name = audio_bucket_name
